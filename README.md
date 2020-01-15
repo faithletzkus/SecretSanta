@@ -7,7 +7,7 @@ This program allows the users to create a list of participants, generates Santa-
 
 -----Purpose-----
 
-This is a personal project inspired by one of my suitemate's loves for Secret Santa. She wanted everyone in my suite to play Secret Santa, and I thought that It would be a fun project to code! I did the first iteration in java, using the console for user input (this program is also posted on my GitHub). Then, I thought it would be cool to have a more visual UI, and created this website using HTML, CSS, and JavaScript! It was a lot of fun, and my suitemate really loved using it :D We are now going to make Secret Santa a suite tradition.
+This is a personal project inspired by one of my suitemate's loves for Secret Santa. She wanted everyone in my suite to play Secret Santa, and I thought that It would be a fun project to code! I did the first iteration in Java, using the console for user input (this program is also posted on my GitHub). Then, I thought it would be cool to have a more visual UI, and created this website using HTML, CSS, and JavaScript! It was a lot of fun, and my suitemate really loved using it :D We are now going to make Secret Santa a suite tradition.
 
 
 -----My Solution-----
