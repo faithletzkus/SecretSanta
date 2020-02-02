@@ -12,6 +12,7 @@ var green = "#65C56C";
 var isSearchingBySanta = true;
 var isSearchingByHuman = false;
 
+
 /*
  *This funciton inititalizes the dropdown feature (HTML select element)
  *with all the names in the participants list
@@ -34,7 +35,7 @@ const init = function(e) {
 
 /*
  *When the screen loads,
-    *init() is called to set up teh drop down (HTML Select element)
+    *init() is called to set up the drop down (HTML Select element)
     *generate new solution is called to generate the Santa Solution
     *And the correct name is set under hover
 */
@@ -53,31 +54,38 @@ document.addEventListener("DOMContentLoaded", function() {
  * SantaToHuman = {a=b, b=a, c=d, d=c}
  * This solution is comprised of two subgroups where the first person is the Santa of the second and the second is the Santa first.
  * I allow this to happen because it closer to a truly random solution.
- * However, it causes a problem if there are an odd number because the last person cannot have themself.
- * I solve for this with the remainingHumans list,
- * generating a new solution over again if the last humanRemaining is also the last Santa without a human.
+ * However, it can cause a problem because the last person cannot have themselves.
+     * I solve for this with the remainingHumans list:
+     *     If there are two remaining humans and one of the remaining is the last Santa, that Santa cannot have themselves,
+     *     so the second-to-last Santa must have the last Santa as their human
 */
 function generateSantaSolution() {
     var remainingHumans = [];
     remainingHumans = remainingHumans.concat(participants);
+    var lastS = participants[participants.length - 1];
     participants.forEach(s => {
         var h = "";
-        let santaIndex = participants.indexOf(s);
-        if (remainingHumans.length == 1 && remainingHumans[0] == s) {
-          generateNewSolution();
+        //if there are two remaining humans and oen of the remaining is the last Santa, that Santa cannot have themselves,
+        //so the second-to-last Santa must have the last Santa as their human
+        if (remainingHumans.length == 1) {
+          h = remainingHumans[0];
+        }
+        else if (remainingHumans.length == 2 && remainingHumans.includes(lastS)) {
+            h = lastS;
+            remainingHumans.splice(remainingHumans.indexOf(lastS), 1);
         }
         else {
-          while (true) {
-              let randomIndex = parseInt(Math.random() * participants.length);
-              h = participants[randomIndex];
-              if (randomIndex !== santaIndex && !humanToSanta.has(h)) {
-                remainingHumans.splice(remainingHumans.indexOf(h), 1);
-                break;
-              }
-          }
-          santaToHuman.set(s, h);
-          humanToSanta.set(h, s);
+            while (true) { //randomly select next human from the remaining Santas
+                let randomIndex = parseInt(Math.random() * remainingHumans.length);
+                h = participants[randomIndex];
+                if (h !== s && !humanToSanta.has(h)) {
+                  remainingHumans.splice(remainingHumans.indexOf(h), 1);
+                  break;
+                }
+            }
         }
+        santaToHuman.set(s, h);
+        humanToSanta.set(h, s);
     });
 };
 
